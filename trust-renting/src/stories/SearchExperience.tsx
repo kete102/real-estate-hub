@@ -39,6 +39,7 @@ export function SearchExperience() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function chatSearch(query: string) {
+    setState("loading");
     const res = await fetch("/api/v1/chat-search", {
       method: "POST",
       headers: {
@@ -51,9 +52,10 @@ export function SearchExperience() {
       throw new Error("Search failed");
     }
 
-    const response = await res.json();
+    const { response } = await res.json();
 
-    console.log(response);
+    setResponse(response as SearchByLocationApiResponse);
+    setState("results");
   }
 
   function handleSubmit(e: React.FormEvent) {
